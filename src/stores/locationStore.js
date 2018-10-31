@@ -1,5 +1,5 @@
 import { Store } from 'svelte/store.js';
-import { API_IP_IMAGES } from '../../constants';
+import { API_IP_IMAGES } from '../constants';
 
 class LocationStore extends Store {
   async fetchCurrentLocation() {

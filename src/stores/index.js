@@ -1,1 +1,2 @@
-export * from './LocationStore';
+export * from './locationStore';
+export * from './weatherStore';

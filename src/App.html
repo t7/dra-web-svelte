@@ -1,109 +1,12 @@
-<style>
-	h1 {
-		font-size: 2.5rem;
-		margin-bottom: 0;
-	}
-
-	.hero {
-		background: lightblue;
-		height: 61vh;
-		display: flex;
-		padding: 2.5rem 4rem;
-		color: #fff;
-	}
-
-	.left-content {
-		display: flex;
-		flex: auto;
-		flex-direction: column;
-	}
-
-	.right-content {
-		display: flex;
-		flex: auto;
-		justify-content: flex-end;
-	}
-
-	.city,
-	.weather {
-		font-weight: 200;
-	}
-
-	.temperature {
-		font-size: 7.5rem;
-	}
-
-	.degrees {
-		font-size: 2.25rem;
-	}
-
-	.current-time {
-		margin: .625rem;
-		font-size: 2.5rem;
-		font-weight: 200;
-	}
-</style>
-
 <main>
-	<div id="hero" class="hero">
-		<div class="left-content">
-			<h1>
-				<span class="city">{city}, </span>
-				<span class="state">{state}</span>
-			</h1>
-			<h2>
-				<span class="weather">Partly Cloudy</span>
-			</h2>
-			<div class="temperature">
-				<div class="temp">44 <sup class="degrees">&#8457;</sup></div>
-			</div>
-		</div>
-		<div class="right-content">
-			<div class="current-time">{hours}:{minutes}</div>
-		</div>
-	</div>
+	<Hero />
 </main>
 
 <script>
+	import Hero from './components/Hero';
 	export default {
-		oncreate() {
-			// this fires when the component has been
-			// rendered to the DOM
-			this.interval = setInterval(() => {
-				this.set({ time: new Date() });
-			}, 1000);
-
-			(async () => {
-				await this.store.fetchCurrentLocation()
-					.then(currentLocation => this.set({ currentLocation }));
-
-				const { lat, lon } = this._state.currentLocation;
-				await this.store.getCityImage(lat, lon)
-					.then(({ cityImage }) =>
-						document.getElementById('hero').style.backgroundImage = `url(${cityImage})`);
-			})();
-		},
-
-		ondestroy() {
-			clearInterval(this.interval);
-		},
-
-		data() {
-			return ({
-				time: new Date(),
-				currentLocation: {},
-				backgroundImage: {},
-			});
-		},
-
-		computed: {
-			hours: ({ time }) => time.getHours(),
-			minutes: ({ time }) => time.getMinutes() > 9 ? time.getMinutes() : '0' + time.getMinutes(),
-			city: ({ currentLocation }) => currentLocation.city,
-			lat: ({ currentLocation }) => currentLocation.lat,
-			lon: ({ currentLocation }) => currentLocation.lon,
-			state: ({ currentLocation }) => currentLocation.regionName,
-			image: ({ backgroundImage }) => backgroundImage
+		components: {
+			Hero,
 		}
-	};
+	}
 </script>
