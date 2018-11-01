@@ -30,6 +30,7 @@
   }
 
   .temperature {
+    display: inline-flex;
     font-size: 7.5rem;
   }
 
@@ -55,6 +56,9 @@
         <span class="weather">{shortForecast}</span>
       </h2>
       <div class="temperature">
+        {#if iconString}
+        <WeatherIcon :iconString />
+        {/if}
         <div class="temp">{currentTemp} <sup class="degrees">&#8457;</sup></div>
       </div>
     </div>
@@ -66,6 +70,8 @@
 
 <script>
   import { locationStore, weatherStore } from '../stores';
+  import Cloud from '../assets/Cloud';
+  import WeatherIcon from '../helpers/WeatherIcon.html';
   export default {
     oncreate() {
       // this fires when the component has been
@@ -113,7 +119,12 @@
         time: new Date(),
         currentLocation: {},
         currentWeather: {},
+        // iconString: null,
       });
+    },
+
+    components: {
+      WeatherIcon,
     },
 
     computed: {
@@ -125,7 +136,7 @@
       state: ({ currentLocation }) => currentLocation.regionName,
       currentTemp: ({ currentWeather }) => currentWeather.temperature || '--',
       shortForecast: ({ currentWeather }) => currentWeather.shortForecast || '',
-      weatherIcon: ({ currentWeather }) => currentWeather.icon,
+      iconString: ({ currentWeather }) => currentWeather.icon,
     }
   };
 </script>
