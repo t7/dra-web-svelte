@@ -69,49 +69,18 @@
 </section>
 
 <script>
-  import { locationStore, weatherStore } from '../stores';
-  import Cloud from '../assets/Cloud';
   import WeatherIcon from '../components/WeatherIcon';
   export default {
+    components: {
+      WeatherIcon,
+    },
+
     oncreate() {
-      // this fires when the component has been
-      // rendered to the DOM
-      this.init();
+      this.startClock();
     },
 
     ondestroy() {
       clearInterval(this.interval);
-    },
-
-    methods: {
-      async init() {
-
-        this.startClock();
-
-        // 1. fetch users location
-        await locationStore.fetchCurrentLocation()
-          .then(currentLocation => this.set({ currentLocation }));
-
-        // 2. fetch city image
-        const { lat, lon } = this._state.currentLocation;
-        await locationStore.getCityImage(lat, lon)
-          .then(({ cityImage }) =>
-            document.getElementById('hero').style.backgroundImage = `url(${cityImage})`);
-
-        // 3. fetch weather endpoints (daily & weekly)
-        await weatherStore.getWeatherEndpoints(lat, lon)
-          .then(weatherEndpoints => this.set({ weatherEndpoints }));
-
-        // 4. fetch hourly weather
-        const { forecastHourlyUrl, forecastUrl } = this._state.weatherEndpoints;
-        await weatherStore.getForecastHourly(forecastHourlyUrl)
-          .then(({ currentWeather }) => this.set({ currentWeather }));
-      },
-      startClock() {
-        this.interval = setInterval(() => {
-          this.set({ time: new Date() });
-        }, 1000);
-      }
     },
 
     data() {
@@ -119,21 +88,29 @@
         time: new Date(),
         currentLocation: {},
         currentWeather: {},
-        // iconString: null,
       });
     },
 
-    components: {
-      WeatherIcon,
+    methods: {
+      startClock() {
+        this.interval = setInterval(() => {
+          this.set({ time: new Date() });
+        }, 1000);
+      }
     },
 
     computed: {
+      // clock
       hours: ({ time }) => time.getHours(),
       minutes: ({ time }) => time.getMinutes() > 9 ? time.getMinutes() : '0' + time.getMinutes(),
+
+      // location
       city: ({ currentLocation }) => currentLocation.city,
       lat: ({ currentLocation }) => currentLocation.lat,
       lon: ({ currentLocation }) => currentLocation.lon,
       state: ({ currentLocation }) => currentLocation.regionName,
+
+      // weather
       currentTemp: ({ currentWeather }) => currentWeather.temperature || '--',
       shortForecast: ({ currentWeather }) => currentWeather.shortForecast || '',
       iconString: ({ currentWeather }) => currentWeather.icon,

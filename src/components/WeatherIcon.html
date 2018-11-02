@@ -1,34 +1,31 @@
 {#if iconString}
-{#if weatherIcon === ('rain_showers')}
-<Rain2 />
-{:elseif weatherIcon === ('blizzard' || 'cold')}
-<Snowflake />
-{:elseif weatherIcon === ('dust' || 'hurricane' || 'smoke' || 'tornado')}
-<Tornado />
-{:elseif weatherIcon === ('bkn' || 'few' || 'ovc' || 'sct')}
-<Cloudy1 />
-{:elseif weatherIcon === ('fog' || 'haze' || 'ovc' || 'sct')}
-<Sunset />
-{:elseif weatherIcon === ('fzra' || 'rain_fzra' || 'rain_snow' || 'rain_sleet' || 'sleet' || 'snow_fzra' ||
-'snow_sleet')}
-<Snowing1 />
-{:elseif weatherIcon === ('hot' || 'skc' || 'wind_skc')}
-<Sun />
-{:elseif weatherIcon === ('rain')}
-<Rain />
-{:elseif weatherIcon === ('rain_showers_hi')}
-<Rain1 />
-{:elseif weatherIcon === ('snow')}
-<Snowing3 />
-{:elseif weatherIcon === ('tropical_storm' || 'tsra' || 'tsra_sct' || 'tsra_hi')}
-<Storm />
-{:elseif weatherIcon === ('wind_sct' || 'wind_few')}
-<Cloudy />
-{:elseif weatherIcon === ('wind_ovc' || 'wind_bkn')}
+{#if weatherIcon === 'Cloud'}
 <Cloud />
+{:elseif weatherIcon === 'Cloudy'}
+<Cloudy />
+{:elseif weatherIcon === 'Cloudy1'}
+<Cloudy1 />
+{:elseif weatherIcon === 'Rain'}
+<Rain />
+{:elseif weatherIcon === 'Rain1'}
+<Rain1 />
+{:elseif weatherIcon === 'Rain2'}
+<Rain2 />
+{:elseif weatherIcon === 'Snowflake'}
+<Snowflake />
+{:elseif weatherIcon === 'Snowing1'}
+<Snowing1 />
+{:elseif weatherIcon === 'Snowing3'}
+<Snowing3 />
+{:elseif weatherIcon === 'Storm'}
+<Storm />
+{:elseif weatherIcon === 'Sun'}
+<Sun />
+{:elseif weatherIcon === 'Sunset'}
+<Sunset />
+{:elseif weatherIcon === 'Tornado'}
+<Tornado />
 {/if}
-{:else}
-<p>loading weather</p>
 {/if}
 
 <script>
@@ -45,10 +42,7 @@
   import Sun from '../assets/Sun';
   import Sunset from '../assets/Sunset';
   import Tornado from '../assets/Tornado';
-  const weatherMapping = iconString => {
-    const iconRegex = /^https:\/\/api.weather.gov\/icons\/land\/(day|night)\/(.*?)(,|\/|\?)/;
-    return iconRegex.exec(iconString)[2];
-  }
+  import { weatherMapping } from '../helpers';
   export default {
     components: {
       Cloud,
@@ -65,13 +59,8 @@
       Sunset,
       Tornado,
     },
-    data() {
-      return ({
-        weatherIcon: null,
-      });
-    },
     computed: {
-      weatherIcon: ({ iconString }) => weatherMapping(iconString)
+      weatherIcon: ({ iconString }) => weatherMapping(iconString),
     }
   }
 </script>

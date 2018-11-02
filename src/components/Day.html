@@ -1,0 +1,59 @@
+<style>
+  .day {
+    display: flex;
+    flex-grow: 1;
+    max-width: 100%;
+    flex-basis: 0;
+    margin: 0 .3125rem;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .bold {
+    font-weight: 600;
+  }
+
+  .day>p {
+    font-size: 1.25rem;
+  }
+
+  .day:first-of-type {
+    margin-left: 0;
+  }
+
+  .day:last-of-type {
+    margin-right: 0;
+  }
+
+  .temperature {
+    display: inline-block;
+  }
+</style>
+
+
+<div class="day">
+  <p class="{day.isToday ? 'bold' : null}">{day.name}</p>
+  <WeatherIcon :iconString />
+  <span>
+    <p class="bold temperature">{dayTemp}℉</p>
+    <p class="temperature">{nightTemp}℉</p>
+  </span>
+</div>
+
+<script>
+  import WeatherIcon from './WeatherIcon';
+  export default {
+    components: {
+      WeatherIcon
+    },
+    computed: {
+      iconString: ({ day }) => {
+        const dayOrNight =
+          day['day'].isDayTime ? 'day' : 'night';
+        return day[dayOrNight].icon;
+      },
+      nightTemp: ({ day }) => day['night'].temperature,
+      dayTemp: ({ day }) => day['day'].temperature,
+    }
+  }
+</script>
