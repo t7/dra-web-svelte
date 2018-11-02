@@ -1,14 +1,17 @@
 <main>
+	<Drawer />
 	<Hero :currentLocation :currentWeather />
 	<Week :forecastWeek />
 </main>
 
 <script>
 	import { locationStore, weatherStore } from './stores';
+	import Drawer from './components/Drawer';
 	import Hero from './components/Hero';
 	import Week from './components/Week';
 	export default {
 		components: {
+			Drawer,
 			Hero,
 			Week,
 		},

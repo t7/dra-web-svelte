@@ -1,0 +1,72 @@
+<style>
+  button {
+    position: absolute;
+    z-index: 1;
+  }
+
+  .burger {
+    right: 6rem;
+    top: 2rem;
+  }
+
+  .close {
+    left: 2rem;
+    top: 2rem;
+  }
+
+  aside {
+    height: 100vh;
+    background: red;
+    width: 30vw;
+    position: absolute;
+    right: 0;
+    z-index: 2;
+  }
+
+  #overlay {
+    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+  }
+</style>
+
+<button class="burger" on:click="toggleDrawer()">
+  {isDrawerOpen}
+</button>
+
+{#if isDrawerOpen}
+<aside in:fly="{x: 50}" out:fly="{x:50}">
+  <button class="close" on:click="toggleDrawer()">
+    close
+  </button>
+</aside>
+<div id="overlay" on:click="toggleDrawer()" />
+{/if}
+
+<script>
+  import { fly } from 'svelte-transitions';
+  export default {
+    transitions: { fly },
+    methods: {
+      toggleDrawer() {
+        const { isDrawerOpen } = this.get();
+        this.set({
+          isDrawerOpen: !isDrawerOpen
+        });
+      }
+    },
+    data() {
+      return ({
+        isDrawerOpen: false,
+      })
+    },
+    computed: {
+      isDrawerOpen: ({ isDrawerOpen }) => isDrawerOpen,
+    }
+  }
+</script>

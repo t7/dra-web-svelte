@@ -18,6 +18,7 @@
     "dev": "webpack-serve --content public --hot"
   },
   "dependencies": {
-    "date-fns": "^1.29.0"
+    "date-fns": "^1.29.0",
+    "svelte-transitions": "^1.2.0"
   }
 }
