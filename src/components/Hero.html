@@ -1,14 +1,18 @@
 <style>
   h1 {
     font-size: 2.5rem;
-    margin-bottom: 0;
+    margin: 0;
+  }
+
+  #hero {
+    height: 61vh;
+    position: relative;
+    z-index: 0;
   }
 
   .hero {
-    background: lightblue;
-    height: 61vh;
     display: flex;
-    padding: 2.5rem 4rem;
+    padding: 4rem 6rem;
     color: #fff;
   }
 
@@ -45,8 +49,8 @@
   }
 </style>
 
-<section>
-  <div id="hero" class="hero">
+<section id="hero">
+  <div class="hero">
     <div class="left-content">
       <h1>
         <span class="city">{city}, </span>
@@ -72,7 +76,7 @@
   import WeatherIcon from '../components/WeatherIcon';
   export default {
     components: {
-      WeatherIcon,
+      WeatherIcon
     },
 
     oncreate() {
