@@ -1,0 +1,26 @@
+<style>
+  section {
+    padding: 2.5rem;
+    height: 39vh;
+    display: flex;
+  }
+</style>
+
+<section>
+  {#if forecastDaily}
+  {#each forecastDaily as day}
+  <Day :day />
+  {/each}
+  {/if}
+</section>
+
+<script>
+  import Day from './Day';
+  import { combineCurrentWeek } from '../helpers';
+  export default {
+    components: { Day },
+    computed: {
+      forecastDaily: ({ forecastWeek }) => combineCurrentWeek(forecastWeek)
+    }
+  }
+</script>

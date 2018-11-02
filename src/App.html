@@ -1,12 +1,75 @@
 <main>
-	<Hero />
+	<Hero :currentLocation :currentWeather />
+	<Week :forecastWeek />
 </main>
 
 <script>
+	import { locationStore, weatherStore } from './stores';
 	import Hero from './components/Hero';
+	import Week from './components/Week';
 	export default {
 		components: {
 			Hero,
+			Week,
+		},
+		oncreate() {
+			this.init();
+		},
+		data() {
+			return ({
+				currentLocation: {},
+				currentWeather: {},
+				weatherEndpoints: {},
+				forecastWeek: [],
+				forecastDaily: [],
+			});
+		},
+		methods: {
+			async init() {
+				// 1. fetch users location
+				await locationStore.fetchCurrentLocation()
+					.then(currentLocation => this.set({ currentLocation }));
+
+				// 2. fetch city image
+				const { lat, lon } = this._state.currentLocation;
+				await locationStore.getCityImage(lat, lon)
+					.then(({ cityImage }) =>
+						document.getElementById('hero').style.backgroundImage = `url(${cityImage})`);
+
+				// 3. fetch weather endpoints (daily & weekly)
+				try {
+					await weatherStore.getWeatherEndpoints(lat, lon)
+						.then(weatherEndpoints => this.set({ weatherEndpoints }));
+				} catch (err) {
+					console.log('FAIL endpoints', err)
+				}
+
+				// 4. fetch hourly weather
+				const { forecastHourlyUrl, forecastUrl } = this._state.weatherEndpoints;
+				try {
+					await weatherStore.getForecastHourly(forecastHourlyUrl)
+						.then(({ currentWeather }) => {
+							this.set({ currentWeather });
+						});
+				} catch (err) {
+					console.log('OMG, error', err);
+				}
+
+				// 5. fetch daily weather
+				try {
+					await weatherStore.getForecastDaily(forecastUrl)
+						.then(({ forecastDaily }) => {
+							this.set({ forecastDaily })
+						});
+				} catch (err) {
+					console.log('daily fail:', err);
+				}
+			}
+		},
+		computed: {
+			currentLocation: ({ currentLocation }) => currentLocation,
+			currentWeather: ({ currentWeather }) => currentWeather,
+			forecastWeek: ({ forecastDaily }) => forecastDaily,
 		}
 	}
 </script>
