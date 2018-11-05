@@ -18,7 +18,9 @@
     "dev": "webpack-serve --content public --hot"
   },
   "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^5.5.0",
     "date-fns": "^1.29.0",
+    "svelte-awesome": "^1.4.1",
     "svelte-transitions": "^1.2.0"
   }
 }
