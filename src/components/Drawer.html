@@ -2,6 +2,9 @@
   button {
     position: absolute;
     z-index: 1;
+    background: transparent;
+    border: none;
+    color: white;
   }
 
   .burger {
@@ -12,11 +15,17 @@
   .close {
     left: 2rem;
     top: 2rem;
+    height: 2.5rem;
+    width: 40px;
+    margin: 0;
+    padding: 0;
+    font-weight: 600;
+    font-size: 1.5rem;
   }
 
   aside {
     height: 100vh;
-    background: red;
+    background: rgba(0, 0, 0, 0.6);
     width: 30vw;
     position: absolute;
     right: 0;
@@ -36,29 +45,31 @@
 </style>
 
 <button class="burger" on:click="toggleDrawer()">
-  {isDrawerOpen}
+  <Icon name="bars" scale={2} />
 </button>
 
 {#if isDrawerOpen}
-<aside in:fly="{x: 50}" out:fly="{x:50}">
+<aside transition:fly='{x:50}'>
   <button class="close" on:click="toggleDrawer()">
-    close
+    X
   </button>
 </aside>
 <div id="overlay" on:click="toggleDrawer()" />
 {/if}
 
 <script>
+  import Icon from 'svelte-awesome';
   import { fly } from 'svelte-transitions';
   export default {
     transitions: { fly },
     methods: {
       toggleDrawer() {
         const { isDrawerOpen } = this.get();
-        this.set({
-          isDrawerOpen: !isDrawerOpen
-        });
+        this.set({ isDrawerOpen: !isDrawerOpen });
       }
+    },
+    components: {
+      Icon
     },
     data() {
       return ({
