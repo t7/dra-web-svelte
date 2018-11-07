@@ -1,4 +1,12 @@
 <style>
+  h1 {
+    position: relative;
+    text-align: center;
+    margin-top: 1.8rem;
+    color: teal;
+    font-size: 2.5rem;
+  }
+
   button {
     position: absolute;
     z-index: 1;
@@ -32,6 +40,10 @@
     z-index: 2;
   }
 
+  .form-wrapper {
+    padding: 2.5rem;
+  }
+
   #overlay {
     background: rgba(0, 0, 0, 0.5);
     position: absolute;
@@ -44,40 +56,32 @@
   }
 </style>
 
-<button class="burger" on:click="toggleDrawer()">
+<button class="burger" on:click="$toggleDrawer()">
   <Icon name="bars" scale={2} />
 </button>
 
-{#if isDrawerOpen}
+{#if $isDrawerOpen}
 <aside transition:fly='{x:50}'>
-  <button class="close" on:click="toggleDrawer()">
+  <button class="close" on:click="$toggleDrawer()">
     X
   </button>
+  <h1>WeatherVane</h1>
+  <div class="form-wrapper">
+    <ZipSearchForm :toggleDrawer />
+  </div>
 </aside>
-<div id="overlay" on:click="toggleDrawer()" />
+<div id="overlay" on:click="$toggleDrawer()" />
 {/if}
 
 <script>
   import Icon from 'svelte-awesome';
   import { fly } from 'svelte-transitions';
+  import ZipSearchForm from '../composed/ZipSearchForm';
   export default {
     transitions: { fly },
-    methods: {
-      toggleDrawer() {
-        const { isDrawerOpen } = this.get();
-        this.set({ isDrawerOpen: !isDrawerOpen });
-      }
-    },
     components: {
-      Icon
+      Icon,
+      ZipSearchForm
     },
-    data() {
-      return ({
-        isDrawerOpen: false,
-      })
-    },
-    computed: {
-      isDrawerOpen: ({ isDrawerOpen }) => isDrawerOpen,
-    }
   }
 </script>

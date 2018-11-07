@@ -1,5 +1,6 @@
 import { Store } from 'svelte/store.js';
 import { API_POINTS } from '../constants';
+import { globalStore } from './';
 
 export class WeatherStore extends Store {
   async getWeatherEndpoints(lat, lon) {
@@ -13,8 +14,9 @@ export class WeatherStore extends Store {
         forecastUrl: forecast,
         forecastHourlyUrl: forecastHourly,
       };
-    } catch (error) {
-      return { error };
+    } catch (err) {
+      globalStore.setToastrOpen({ message: 'Couldn\'t get any weather endpoints. Please try again.' });
+      console.log('Get Weather Endpoints Error:', err);
     }
   };
 
@@ -26,8 +28,9 @@ export class WeatherStore extends Store {
         forecastHourly: [...properties.periods],
         currentWeather: properties.periods[0],
       };
-    } catch (error) {
-      return { error };
+    } catch (err) {
+      globalStore.setToastrOpen({ message: 'Couldn\'t get the hourly forecast. Please try again.' });
+      console.log('Hourly Forecast Error:', err);
     }
   };
 
@@ -38,8 +41,9 @@ export class WeatherStore extends Store {
       return {
         forecastDaily: properties.periods,
       };
-    } catch (error) {
-      return { error };
+    } catch (err) {
+      globalStore.setToastrOpen({ message: 'Couldn\'t get the daily forecast. Please try again.' });
+      console.log('Daily Forecast Error:', err);
     }
   };
 }

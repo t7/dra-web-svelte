@@ -1,78 +1,47 @@
+<style>
+	main {
+		height: 100vh;
+		display: flex;
+		flex: 1;
+		flex-direction: column;
+	}
+</style>
+
 <main>
 	<Drawer />
-	<Hero :currentLocation :currentWeather />
-	<Week :forecastWeek />
+	<Hero />
+	<Week />
+	<Toastr />
 </main>
 
 <script>
-	import { locationStore, weatherStore } from './stores';
+	import { globalStore } from './stores';
 	import Drawer from './components/Drawer';
 	import Hero from './components/Hero';
+	import Toastr from './components/Toastr';
 	import Week from './components/Week';
 	export default {
 		components: {
 			Drawer,
 			Hero,
+			Toastr,
 			Week,
 		},
 		oncreate() {
 			this.init();
 		},
-		data() {
-			return ({
-				currentLocation: {},
-				currentWeather: {},
-				weatherEndpoints: {},
-				forecastWeek: [],
-				forecastDaily: [],
-			});
-		},
 		methods: {
 			async init() {
+				globalStore.setToastrOpen({ message: 'We be loadin khedd' });
 				// 1. fetch users location
-				await locationStore.fetchCurrentLocation()
-					.then(currentLocation => this.set({ currentLocation }));
-
+				await globalStore.getUserLocation();
 				// 2. fetch city image
-				const { lat, lon } = this._state.currentLocation;
-				await locationStore.getCityImage(lat, lon)
-					.then(({ cityImage }) =>
-						document.getElementById('hero').style.backgroundImage = `url(${cityImage})`);
-
+				await globalStore.getCityImage();
 				// 3. fetch weather endpoints (daily & weekly)
-				try {
-					await weatherStore.getWeatherEndpoints(lat, lon)
-						.then(weatherEndpoints => this.set({ weatherEndpoints }));
-				} catch (err) {
-					console.log('FAIL endpoints', err)
-				}
+				await globalStore.getWeather();
 
-				// 4. fetch hourly weather
-				const { forecastHourlyUrl, forecastUrl } = this._state.weatherEndpoints;
-				try {
-					await weatherStore.getForecastHourly(forecastHourlyUrl)
-						.then(({ currentWeather }) => {
-							this.set({ currentWeather });
-						});
-				} catch (err) {
-					console.log('OMG, error', err);
-				}
-
-				// 5. fetch daily weather
-				try {
-					await weatherStore.getForecastDaily(forecastUrl)
-						.then(({ forecastDaily }) => {
-							this.set({ forecastDaily })
-						});
-				} catch (err) {
-					console.log('daily fail:', err);
-				}
+				globalStore.setToastrClose();
 			}
-		},
-		computed: {
-			currentLocation: ({ currentLocation }) => currentLocation,
-			currentWeather: ({ currentWeather }) => currentWeather,
-			forecastWeek: ({ forecastDaily }) => forecastDaily,
 		}
 	}
 </script>
