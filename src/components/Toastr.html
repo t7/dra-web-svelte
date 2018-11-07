@@ -1,0 +1,28 @@
+<style>
+  .toastr-wrapper {
+    display: flex;
+    flex: 1;
+    background: red;
+    align-items: center;
+  }
+
+  .toastr {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+    align-items: center;
+  }
+</style>
+
+{#if $isToastrOpen}
+<div class="toastr-wrapper" transition:fly='{y: 50, duration: 2000, easing: elasticOut}'>
+  <span class="toastr">{$message}</span>
+</div>
+{/if}
+
+<script>
+  import { fly } from 'svelte-transitions';
+  export default {
+    transitions: { fly }
+  };
+</script>

@@ -1,0 +1,49 @@
+<style>
+  .search-btn {
+    width: 100%;
+    background: teal;
+    color: #fff;
+    border: none;
+  }
+  label {
+    color: #fff;
+    margin-bottom: 5px;
+  }
+  p.error {
+    color: red;
+  }
+</style>
+
+<form on:submit="event.preventDefault()">
+  <label for="searchByZip">Search by ZipCode:</label>
+  <Input id="searchByZip" name="Search by zipcode" bind:value="zipCode" />
+  <input class="search-btn" type="submit" value="Search" on:click="searchByZip()" />
+  {#if formError}
+  <p class="error">{formError}</p>
+  {/if}
+</form>
+
+<script>
+  import { locationStore, weatherStore, globalStore } from '../stores';
+  import { isValidZipCode } from '../helpers';
+  import Input from '../components/Input.html';
+  export default {
+    components: {
+      Input
+    },
+    methods: {
+      searchByZip() {
+        const { zipCode } = this.get();
+        isValidZipCode(zipCode)
+          ? globalStore.setNewCity(zipCode)
+          : this.set({ formError: 'Please enter a vaild zip code' });
+      }
+    },
+    data() {
+      return ({
+        zipCode: '',
+        formError: null,
+      })
+    }
+  }
+</script>

@@ -1,5 +1,6 @@
 import { Store } from 'svelte/store.js';
-import { API_IP_IMAGES } from '../constants';
+import { API_IP_IMAGES, API_ZIP } from '../constants';
+import { globalStore } from './';
 
 class LocationStore extends Store {
   async fetchCurrentLocation() {
@@ -14,8 +15,9 @@ class LocationStore extends Store {
         region,
         regionName,
       };
-    } catch (error) {
-      return { error };
+    } catch (err) {
+      globalStore.setToastrOpen({ message: 'Couldn\'t find your location. Please try again.' });
+      console.log('Get User\'s Location:', err);
     }
   }
   async getCityImage(lat, lon) {
@@ -31,10 +33,33 @@ class LocationStore extends Store {
             'location:nearest-urban-area'
           ]._embedded['ua:images'].photos[0].image.web,
       };
-    } catch (error) {
-      return { error };
+    } catch (err) {
+      globalStore.setToastrOpen({ message: 'Couldn\'t find a city image. Please try again.' });
+      console.log('Get City Image:', err);
     }
   };
+
+  async getCityByZip(zipCode) {
+    try {
+      const response = await fetch(`${API_ZIP}/${zipCode}`);
+      const json = await response.json();
+      if (json.places && json.places[0]) {
+        const final = json.places[0];
+        const { latitude, longitude, state } = final;
+        return {
+          city: final['place name'],
+          lat: parseFloat(latitude),
+          lon: parseFloat(longitude),
+          region: final['state abbreviation'],
+          regionName: state,
+        };
+      }
+    } catch (err) {
+      globalStore.setToastrOpen({ message: 'Couldn\'t find that location. Please try another.' });
+      console.log('Get Zipcode Error:', err);
+    }
+  };
+
 }
 
 export const locationStore = new LocationStore();

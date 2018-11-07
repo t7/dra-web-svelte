@@ -21,7 +21,7 @@
   export default {
     components: { Day },
     computed: {
-      forecastDaily: ({ forecastWeek }) => combineCurrentWeek(forecastWeek)
+      forecastDaily: ({ _, $forecastDaily }) => combineCurrentWeek($forecastDaily)
     }
   }
 </script>

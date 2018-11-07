@@ -8,12 +8,25 @@
     height: 61vh;
     position: relative;
     z-index: 0;
+    background-size: cover;
+    background-position: center;
+  }
+
+  #hero:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(1, 1, 1, 0.5);
   }
 
   .hero {
     display: flex;
     padding: 6rem;
     color: #fff;
+    position: relative;
   }
 
   .left-content {
@@ -51,24 +64,24 @@
 
 <section id="hero">
   <div class="hero">
+    {#if $currentLocation && $currentWeather}
     <div class="left-content">
       <h1>
-        <span class="city">{city}, </span>
-        <span class="state">{state}</span>
+        <span class="city">{$currentLocation.city}, </span>
+        <span class="state">{$currentLocation.region}</span>
       </h1>
       <h2>
-        <span class="weather">{shortForecast}</span>
+        <span class="weather">{$currentWeather.shortForecast}</span>
       </h2>
       <div class="temperature">
-        {#if iconString}
-        <WeatherIcon :iconString />
-        {/if}
-        <div class="temp">{currentTemp} <sup class="degrees">&#8457;</sup></div>
+        <WeatherIcon iconString="{$currentWeather.icon}" />
+        <div class="temp">{$currentWeather.temperature} <sup class="degrees">&#8457;</sup></div>
       </div>
     </div>
     <div class="right-content">
       <div class="current-time">{hours}:{minutes}</div>
     </div>
+    {/if}
   </div>
 </section>
 
@@ -90,8 +103,6 @@
     data() {
       return ({
         time: new Date(),
-        currentLocation: {},
-        currentWeather: {},
       });
     },
 
@@ -107,17 +118,6 @@
       // clock
       hours: ({ time }) => time.getHours(),
       minutes: ({ time }) => time.getMinutes() > 9 ? time.getMinutes() : '0' + time.getMinutes(),
-
-      // location
-      city: ({ currentLocation }) => currentLocation.city,
-      lat: ({ currentLocation }) => currentLocation.lat,
-      lon: ({ currentLocation }) => currentLocation.lon,
-      state: ({ currentLocation }) => currentLocation.regionName,
-
-      // weather
-      currentTemp: ({ currentWeather }) => currentWeather.temperature || '--',
-      shortForecast: ({ currentWeather }) => currentWeather.shortForecast || '',
-      iconString: ({ currentWeather }) => currentWeather.icon,
     }
   };
 </script>
