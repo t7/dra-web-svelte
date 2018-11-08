@@ -2,6 +2,8 @@ import { Store } from 'svelte/store.js';
 import { locationStore, weatherStore } from './';
 import { HERO_FALLBACK } from '../constants';
 
+const zipCodes = localStorage.getItem('zipCodes');
+
 class GlobalStore extends Store {
   // Toastr
   setToastrOpen({ message }) {
@@ -15,6 +17,20 @@ class GlobalStore extends Store {
   toggleDrawer() {
     const { isDrawerOpen } = this.get();
     this.set({ isDrawerOpen: !isDrawerOpen });
+  }
+
+  saveInStorage(zipCode) {
+    const { recentZipCodes } = this.get();
+
+    if (!recentZipCodes.includes(zipCode)) {
+      recentZipCodes.push(zipCode);
+      localStorage.setItem('zipCodes', JSON.stringify(recentZipCodes));
+    }
+  }
+
+  clearRecentZips() {
+    localStorage.removeItem('zipCodes');
+    this.set({ recentZipCodes: [] });
   }
 
   async getUserLocation() {
@@ -64,6 +80,9 @@ class GlobalStore extends Store {
     await this.getCityImage();
     this.setToastrClose();
     this.toggleDrawer();
+    if (zipCode) {
+      this.saveInStorage(zipCode);
+    }
   }
 
   async getWeather() {
@@ -76,4 +95,5 @@ class GlobalStore extends Store {
 
 export const globalStore = new GlobalStore({
   isDrawerOpen: false,
+  recentZipCodes: zipCodes ? JSON.parse(Array(zipCodes)) : [],
 });
