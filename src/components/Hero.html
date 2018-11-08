@@ -1,7 +1,12 @@
 <style>
+  h1,
+  h2 {
+    margin: 0;
+    margin-bottom: 1rem;
+  }
+
   h1 {
     font-size: 2.5rem;
-    margin: 0;
   }
 
   #hero {
@@ -27,6 +32,14 @@
     padding: 6rem;
     color: #fff;
     position: relative;
+  }
+
+  @media(max-width: 768px) {
+    .hero {
+      padding: 3.75rem;
+      flex-direction: column-reverse;
+      align-items: center;
+    }
   }
 
   .left-content {
@@ -79,13 +92,14 @@
       </div>
     </div>
     <div class="right-content">
-      <div class="current-time">{hours}:{minutes}</div>
+      <div class="current-time">{day}, { theTime }</div>
     </div>
     {/if}
   </div>
 </section>
 
 <script>
+  import { dayOfWeek } from '../helpers';
   import WeatherIcon from '../components/WeatherIcon';
   export default {
     components: {
@@ -115,9 +129,8 @@
     },
 
     computed: {
-      // clock
-      hours: ({ time }) => time.getHours(),
-      minutes: ({ time }) => time.getMinutes() > 9 ? time.getMinutes() : '0' + time.getMinutes(),
+      day: ({ time }) => dayOfWeek(time.getDay()),
+      theTime: ({ time }) => time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }),
     }
   };
 </script>
