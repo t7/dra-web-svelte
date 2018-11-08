@@ -11,3 +11,4 @@ export * from './Storm.html';
 export * from './Sun.html';
 export * from './Sunset.html';
 export * from './Tornado.html';
+export * from './Wave.html';

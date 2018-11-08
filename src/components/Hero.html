@@ -10,7 +10,7 @@
   }
 
   #hero {
-    height: 61vh;
+    height: 70vh;
     position: relative;
     z-index: 0;
     background-size: cover;
@@ -96,14 +96,17 @@
     </div>
     {/if}
   </div>
+  <Wave />
 </section>
 
 <script>
   import { dayOfWeek } from '../helpers';
   import WeatherIcon from '../components/WeatherIcon';
+  import Wave from '../assets/Wave';
   export default {
     components: {
-      WeatherIcon
+      WeatherIcon,
+      Wave,
     },
 
     oncreate() {
