@@ -1,10 +1,23 @@
 <style>
+  .search-btns {
+    display: flex;
+    justify-content: space-between;
+  }
   .search-btn {
-    width: 100%;
     background: teal;
     color: #fff;
     border: none;
+    flex: auto;
+    display: flex;
+    justify-content: center;
   }
+  .search-btn:nth-of-type(odd) {
+    margin-right: 5px; 
+  }
+  .search-btn:nth-of-type(even) {
+    margin-left: 5px;
+  }
+
   label {
     color: #fff;
     margin-bottom: 5px;
@@ -17,7 +30,10 @@
 <form on:submit="event.preventDefault()">
   <label for="searchByZip">Search by ZipCode:</label>
   <Input id="searchByZip" name="Search by zipcode" bind:value="zipCode" />
-  <input class="search-btn" type="submit" value="Search" on:click="searchByZip()" />
+  <div class="search-btns">
+    <input class="search-btn" type="submit" value="Search" on:click="searchByZip()" />
+    <input class="search-btn" type="submit" value="Home" on:click="searchHome()" />
+  </div>
   {#if formError}
   <p class="error">{formError}</p>
   {/if}
@@ -37,6 +53,9 @@
         isValidZipCode(zipCode)
           ? globalStore.setNewCity(zipCode)
           : this.set({ formError: 'Please enter a vaild zip code' });
+      },
+      searchHome() {
+        globalStore.setNewCity();
       }
     },
     data() {
