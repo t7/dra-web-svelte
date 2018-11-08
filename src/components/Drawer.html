@@ -83,7 +83,8 @@
   </button>
   <h1>WeatherVane</h1>
   <div class="form-wrapper">
-    <ZipSearchForm :toggleDrawer />
+    <ZipSearchForm />
+    <RecentSearches />
   </div>
 </aside>
 <div id="overlay" on:click="$toggleDrawer()" />
@@ -92,11 +93,13 @@
 <script>
   import Icon from 'svelte-awesome';
   import { fly } from 'svelte-transitions';
+  import RecentSearches from './RecentSearches';
   import ZipSearchForm from '../composed/ZipSearchForm';
   export default {
     transitions: { fly },
     components: {
       Icon,
+      RecentSearches,
       ZipSearchForm
     },
   }

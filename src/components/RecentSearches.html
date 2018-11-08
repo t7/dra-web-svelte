@@ -1,0 +1,40 @@
+<style>
+  h2 {
+    font-size: 1.5rem;
+    text-align: center;
+    color: #fff;
+  }
+
+  section {
+    color: #fff;
+  }
+
+  .recentZipsContainer {
+    display: flex;
+    list-style: none;
+    justify-content: space-evenly;
+    padding: 0;
+  }
+
+  .clear-container {
+    text-align: center;
+  }
+</style>
+
+{#if $recentZipCodes.length > 0}
+<section>
+  <h2>Recent Zipcode Searches</h2>
+  <hr />
+  <ul class="recentZipsContainer">
+    {#each $recentZipCodes as zip}
+    <li>
+      <button on:click="$setNewCity(zip)">{zip}</button>
+    </li>
+    {/each}
+  </ul>
+  <div class="clear-container">
+    <hr />
+    <button on:click="$clearRecentZips()">Clear recent</button>
+  </div>
+</section>
+{/if}
