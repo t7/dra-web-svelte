@@ -32,9 +32,9 @@
   }
 
   aside {
-    height: 100vh;
+    height: 100%;
     background: rgba(0, 0, 0, 0.6);
-    width: 30vw;
+    width: 60vw;
     position: absolute;
     right: 0;
     z-index: 2;
@@ -49,10 +49,26 @@
     position: absolute;
     top: 0;
     right: 0;
-    height: 100vh;
+    height: 100%;
     bottom: 0;
     left: 0;
     z-index: 1;
+  }
+
+  @media(max-width: 768px) {
+    .burger {
+      right: 1rem;
+    }
+
+    aside {
+      width: 100vw;
+    }
+  }
+
+  @media(min-width: 1280px) {
+    aside {
+      width: 30vw;
+    }
   }
 </style>
 
