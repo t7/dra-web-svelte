@@ -51,8 +51,10 @@ class GlobalStore extends Store {
   }
 
   async getCityByZip(zipCode) {
-    await locationStore.getCityByZip(zipCode)
-      .then((currentLocation) => this.set({ currentLocation }));
+    !zipCode
+      ? await this.getUserLocation()
+      : await locationStore.getCityByZip(zipCode)
+        .then((currentLocation) => this.set({ currentLocation }));
   }
 
   async setNewCity(zipCode) {
