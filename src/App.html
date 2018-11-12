@@ -1,44 +1,29 @@
 <style>
-	main {
-		position: relative;
+	#app {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
 	}
 </style>
-
-<main>
+<div id="app">
 	<Drawer />
-	<Hero />
-	<Week />
-	<Toastr />
-</main>
+</div>
 
 <script>
-	import { globalStore } from './stores';
+	import SvelteRouter from 'svelte-router';
+	import routes from './routes';
 	import Drawer from './components/Drawer';
-	import Hero from './components/Hero';
-	import Toastr from './components/Toastr';
-	import Week from './components/Week';
-	export default {
-		components: {
-			Drawer,
-			Hero,
-			Toastr,
-			Week,
-		},
-		oncreate() {
-			this.init();
-		},
-		methods: {
-			async init() {
-				globalStore.setToastrOpen({ message: 'We be loadin khedd' });
-				// 1. fetch users location
-				await globalStore.getUserLocation();
-				// 2. fetch city image
-				await globalStore.getCityImage();
-				// 3. fetch weather endpoints (daily & weekly)
-				await globalStore.getWeather();
+	import { globalStore } from './stores/globalStore';
 
-				globalStore.setToastrClose();
-			}
+	const router = new SvelteRouter(routes)
+	export default {
+		oncreate() {
+			router.create('#app');
+		},
+		store: () => globalStore,
+		components: {
+			Drawer
 		}
 	}
 </script>

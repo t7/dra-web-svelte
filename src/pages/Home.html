@@ -1,0 +1,45 @@
+<style>
+  main {
+    position: relative;
+  }
+</style>
+
+<main>
+  <Hero />
+  <Week />
+  <Toastr />
+</main>
+
+<script>
+  import SvelteRouter from 'svelte-router';
+  import routes from '../routes';
+  import { globalStore } from '../stores';
+  import Hero from '../components/Hero';
+  import Toastr from '../components/Toastr';
+  import Week from '../components/Week';
+
+  export default {
+    components: {
+      Hero,
+      Toastr,
+      Week,
+    },
+    store: () => globalStore,
+    oncreate() {
+      this.init();
+    },
+    methods: {
+      async init() {
+        globalStore.setToastrOpen({ message: 'We be loadin khedd' });
+        // 1. fetch users location
+        await globalStore.getUserLocation();
+        // 2. fetch city image
+        await globalStore.getCityImage();
+        // 3. fetch weather endpoints (daily & weekly)
+        await globalStore.getWeather();
+
+        globalStore.setToastrClose();
+      }
+    }
+  }
+</script>
