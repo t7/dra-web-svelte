@@ -1,3 +1,4 @@
+<svelte:window on:hashchange='onHashChange()' />
 <style>
   h1 {
     position: relative;
@@ -38,10 +39,16 @@
     position: absolute;
     right: 0;
     z-index: 2;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
   }
 
   .form-wrapper {
     padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    flex: auto;
   }
 
   #overlay {
@@ -53,6 +60,13 @@
     bottom: 0;
     left: 0;
     z-index: 1;
+  }
+
+  .routes-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex: auto;
   }
 
   @media(max-width: 768px) {
@@ -86,12 +100,16 @@
     <ZipSearchForm />
     <RecentSearches />
   </div>
+  <div class="routes-wrapper">
+    <button on:click="handleClick()">{location}</button>
+  </div>
 </aside>
 <div id="overlay" on:click="$toggleDrawer()" />
 {/if}
 
 <script>
   import Icon from 'svelte-awesome';
+  import SvelteRouter from 'svelte-router';
   import { fly } from 'svelte-transitions';
   import RecentSearches from './RecentSearches';
   import ZipSearchForm from '../composed/ZipSearchForm';
@@ -100,7 +118,27 @@
     components: {
       Icon,
       RecentSearches,
-      ZipSearchForm
+      ZipSearchForm,
     },
+    oncreate() {
+      this.onHashChange();
+    },
+    methods: {
+      handleClick() {
+        window.location.hash.includes('settings')
+          ? SvelteRouter.push('/')
+          : SvelteRouter.push('/settings')
+
+        this.store.toggleDrawer();
+      },
+      onHashChange() {
+        window.location.hash.includes('settings')
+          ? this.set({ location: 'Home' })
+          : this.set({ location: 'Settings' })
+      }
+    },
+    computed: {
+      location: ({ location }) => location,
+    }
   }
 </script>
