@@ -1,0 +1,47 @@
+<style>
+  form {
+    max-width: 31.25rem;
+    margin: 0 auto;
+  }
+  h1 {
+    text-align: center;
+  }
+  .options {
+    display: flex;
+  }
+  .options span {
+    display: flex;
+    flex: auto;
+  }
+  .options span label {
+    margin: 0 .9375rem;
+    font-weight: 600;
+  }
+</style>
+<div>
+  <h1>Settings</h1>
+  <form>
+    <p>Please select your unit of temperature:</p>
+    <div class="options">
+      <span>
+        <label for="C">°C</label>
+        <input on:change="$saveTempUnit(tempUnit)" bind:group='tempUnit' checked="{Cchecked}" id="C" name="tempUnit"
+          type="radio" value="C">
+      </span>
+      <span>
+        <label for="F">°F</label>
+        <input on:change="$saveTempUnit(tempUnit)" bind:group='tempUnit' checked="{Fchecked}" id="F" name="tempUnit"
+          type="radio" value="F">
+      </span>
+    </div>
+  </form>
+</div>
+
+<script>
+  export default {
+    computed: {
+      Cchecked: ({ $tempUnit }) => $tempUnit === 'C',
+      Fchecked: ({ $tempUnit }) => $tempUnit === 'F',
+    }
+  }
+</script>

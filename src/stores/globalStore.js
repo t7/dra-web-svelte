@@ -1,8 +1,10 @@
 import { Store } from 'svelte/store.js';
 import { locationStore, weatherStore } from './';
 import { HERO_FALLBACK } from '../constants';
+import { convertToCelsius } from '../helpers';
 
 const zipCodes = localStorage.getItem('zipCodes');
+const tempUnit = localStorage.getItem('tempUnit');
 
 class GlobalStore extends Store {
   // Toastr
@@ -17,6 +19,11 @@ class GlobalStore extends Store {
   toggleDrawer() {
     const { isDrawerOpen } = this.get();
     this.set({ isDrawerOpen: !isDrawerOpen });
+  }
+
+  saveTempUnit(tempUnit) {
+    localStorage.setItem('tempUnit', tempUnit);
+    this.set({ tempUnit });
   }
 
   saveInStorage(zipCode) {
@@ -62,8 +69,14 @@ class GlobalStore extends Store {
 
   async getWeatherHourly() {
     const { forecastHourlyUrl } = this.get().weatherEndpoints;
+    const { tempUnit } = this.get();
     await weatherStore.getForecastHourly(forecastHourlyUrl)
-      .then(({ currentWeather }) => this.set({ currentWeather }));
+      .then(({ currentWeather }) => {
+        if (tempUnit === 'C') {
+          currentWeather.temperature = convertToCelsius(currentWeather.temperature);
+        }
+        this.set({ currentWeather })
+      });
   }
 
   async getCityByZip(zipCode) {
@@ -96,4 +109,5 @@ class GlobalStore extends Store {
 export const globalStore = new GlobalStore({
   isDrawerOpen: false,
   recentZipCodes: zipCodes ? JSON.parse(Array(zipCodes)) : [],
+  tempUnit: tempUnit || 'F',
 });

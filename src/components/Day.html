@@ -34,13 +34,14 @@
   <p class="{day.isToday ? 'bold' : null}">{day.name}</p>
   <WeatherIcon :iconString />
   <span>
-    <p class="bold temperature">{dayTemp}℉</p>
-    <p class="temperature">{nightTemp}℉</p>
+    <p class="bold temperature">{dayTemp}°{$tempUnit}</p>
+    <p class="temperature">{nightTemp}°{$tempUnit}</p>
   </span>
 </div>
 
 <script>
   import WeatherIcon from './WeatherIcon';
+  import { convertToCelsius } from '../helpers';
   export default {
     components: {
       WeatherIcon
@@ -51,8 +52,18 @@
           day['day'].isDayTime ? 'day' : 'night';
         return day[dayOrNight].icon;
       },
-      nightTemp: ({ day }) => day['night'].temperature,
-      dayTemp: ({ day }) => day['day'].temperature,
+      nightTemp: ({ day, $tempUnit }) => {
+        const temp = day['night'].temperature;
+        return $tempUnit === 'C'
+          ? convertToCelsius(temp)
+          : temp
+      },
+      dayTemp: ({ day, $tempUnit }) => {
+        const temp = day['night'].temperature;
+        return $tempUnit === 'C'
+          ? convertToCelsius(temp)
+          : temp
+      }
     }
   }
 </script>

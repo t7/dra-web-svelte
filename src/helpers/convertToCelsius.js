@@ -1,0 +1,1 @@
+export const convertToCelsius = temp => +(5 / 9 * (temp - 32)).toFixed(0)

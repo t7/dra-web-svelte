@@ -6,12 +6,16 @@
 </style>
 
 <main>
-  YO
+  <ChangeTempUnitsForm />
 </main>
 
 <script>
+  import ChangeTempUnitsForm from '../composed/ChangeTempUnitsForm';
   import { globalStore } from '../stores/globalStore';
   export default {
+    components: {
+      ChangeTempUnitsForm
+    },
     store: () => globalStore,
   }
 </script>
