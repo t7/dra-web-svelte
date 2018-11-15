@@ -4,6 +4,8 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, 10.625rem);
     justify-content: center;
+    max-width: 75rem;
+    margin: 0 auto;
   }
 </style>
 
@@ -21,7 +23,7 @@
   export default {
     components: { Day },
     computed: {
-      forecastDaily: ({ _, $forecastDaily }) => combineCurrentWeek($forecastDaily)
+      forecastDaily: ({ $forecastDaily }) => combineCurrentWeek($forecastDaily)
     }
   }
 </script>

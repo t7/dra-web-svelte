@@ -75,7 +75,7 @@ class GlobalStore extends Store {
         if (tempUnit === 'C') {
           currentWeather.temperature = convertToCelsius(currentWeather.temperature);
         }
-        this.set({ currentWeather })
+        this.set({ currentWeather });
       });
   }
 

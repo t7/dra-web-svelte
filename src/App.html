@@ -4,18 +4,21 @@
 		top: 0;
 		left: 0;
 		right: 0;
+		bottom: 0;
 		display: flex;
 		flex-direction: column;
 	}
 </style>
 <div id="app">
 	<Drawer />
+	<Toastr />
 </div>
 
 <script>
 	import SvelteRouter from 'svelte-router';
 	import routes from './routes';
 	import Drawer from './components/Drawer';
+	import Toastr from './components/Toastr';
 	import { globalStore } from './stores/globalStore';
 
 	const router = new SvelteRouter(routes)
@@ -24,8 +27,6 @@
 			router.create('#app');
 		},
 		store: () => globalStore,
-		components: {
-			Drawer
-		}
+		components: { Drawer, Toastr },
 	}
 </script>

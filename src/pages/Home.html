@@ -7,7 +7,6 @@
 <main>
   <Hero />
   <Week />
-  <Toastr />
 </main>
 
 <script>
@@ -15,13 +14,11 @@
   import routes from '../routes';
   import { globalStore } from '../stores';
   import Hero from '../components/Hero';
-  import Toastr from '../components/Toastr';
   import Week from '../components/Week';
 
   export default {
     components: {
       Hero,
-      Toastr,
       Week,
     },
     store: () => globalStore,
@@ -30,7 +27,7 @@
     },
     methods: {
       async init() {
-        globalStore.setToastrOpen({ message: 'We be loadin khedd' });
+        globalStore.setToastrOpen({ message: 'Loading...' });
         // 1. fetch users location
         await globalStore.getUserLocation();
         // 2. fetch city image
