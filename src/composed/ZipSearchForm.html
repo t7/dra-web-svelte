@@ -12,15 +12,15 @@
     justify-content: center;
   }
   .search-btn:nth-of-type(odd) {
-    margin-right: 5px; 
+    margin-right: .3125rem; 
   }
   .search-btn:nth-of-type(even) {
-    margin-left: 5px;
+    margin-left: .3125rem;
   }
 
   label {
     color: #fff;
-    margin-bottom: 5px;
+    margin-bottom: .3125rem;
   }
   p.error {
     color: red;
@@ -45,7 +45,7 @@
   import Input from '../components/Input.html';
   export default {
     components: {
-      Input
+      Input,
     },
     methods: {
       searchByZip() {
@@ -62,7 +62,7 @@
       return ({
         zipCode: '',
         formError: null,
-      })
+      });
     }
   }
 </script>

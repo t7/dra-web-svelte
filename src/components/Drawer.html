@@ -14,6 +14,7 @@
     background: transparent;
     border: none;
     color: white;
+    cursor: pointer;
   }
 
   .burger {
@@ -102,7 +103,7 @@
     <RecentSearches />
   </div>
   <div class="routes-wrapper">
-    <button on:click="handleClick()">{location}</button>
+    <button on:click="handleNavClick()">{location}</button>
   </div>
 </aside>
 <div id="overlay" on:click="$toggleDrawer()" />
@@ -125,7 +126,7 @@
       this.onHashChange();
     },
     methods: {
-      handleClick() {
+      handleNavClick() {
         window.location.hash.includes('settings')
           ? SvelteRouter.push('/')
           : SvelteRouter.push('/settings')
