@@ -1,0 +1,27 @@
+service: dra-svelte
+
+frameworkVersion: '>=1.26.0 <2.0.0'
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: dev
+  region: us-east-1
+  credentials:
+    accessKeyId: AKIAJLTO3ONWSVU56N4A
+    secretAccessKey: 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
+
+plugins:
+  - serverless-finch
+
+custom:
+  client:
+    bucketName: dra-svelte
+    distributionFolder: public
+    indexDocument: index.html
+    errorDocument: index.htm
+
+package:
+  exclude:
+    - coverage/**
+    - .circleci/**
