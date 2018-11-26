@@ -19,7 +19,7 @@ custom:
     bucketName: dra-svelte
     distributionFolder: public
     indexDocument: index.html
-    errorDocument: index.htm
+    errorDocument: error.html
 
 package:
   exclude:

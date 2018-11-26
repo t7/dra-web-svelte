@@ -81,7 +81,7 @@
 
 {#if $isDrawerOpen}
 <aside transition:fly='{x:50}'>
-  <button class="close" on:click="$toggleDrawer()">
+  <button class="close" aria-label="close menu" on:click="$toggleDrawer()">
     X
   </button>
   <h1>WeatherVane</h1>
@@ -90,7 +90,7 @@
     <RecentSearches />
   </div>
   <div class="routes-wrapper">
-    <button on:click="handleNavClick()">{location}</button>
+    <button aria-label="{location}" on:click="handleNavClick()">{location}</button>
   </div>
 </aside>
 <div id="overlay" on:click="$toggleDrawer()" />

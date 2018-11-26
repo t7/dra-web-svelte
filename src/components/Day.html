@@ -59,7 +59,7 @@
           : temp
       },
       dayTemp: ({ day, $tempUnit }) => {
-        const temp = day['night'].temperature;
+        const temp = day['day'].temperature;
         return $tempUnit === 'C'
           ? convertToCelsius(temp)
           : temp

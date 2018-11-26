@@ -30,7 +30,7 @@
 	}
 </style>
 <div id="app">
-	<button class="burger" on:click="loadDrawer()">
+	<button class="burger" aria-label="menu" on:click="loadDrawer()">
 		<Icon name="bars" scale={2} />
 	</button>
 	{#if $isDrawerOpen}
