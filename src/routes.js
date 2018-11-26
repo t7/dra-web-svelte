@@ -1,5 +1,5 @@
 import Home from './pages/Home.html';
-import Settings from './pages/Settings.html';
+import Settings from './pages/Settings';
 
 export default {
   mode: 'hash',
