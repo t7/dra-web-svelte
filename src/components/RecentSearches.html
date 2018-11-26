@@ -28,13 +28,13 @@
   <ul class="recentZipsContainer">
     {#each $recentZipCodes as zip}
     <li>
-      <button on:click="$setNewCity(zip)">{zip}</button>
+      <button aria-label="recent zip: {zip}" on:click="$setNewCity(zip)">{zip}</button>
     </li>
     {/each}
   </ul>
   <div class="clear-container">
     <hr />
-    <button on:click="$clearRecentZips()">Clear recent</button>
+    <button aria-label="clear recent zip codes" on:click="$clearRecentZips()">Clear recent</button>
   </div>
 </section>
 {/if}
