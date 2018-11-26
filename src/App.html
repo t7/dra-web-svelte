@@ -8,16 +8,41 @@
 		display: flex;
 		flex-direction: column;
 	}
+
+	button {
+		position: absolute;
+		z-index: 1;
+		background: transparent;
+		border: none;
+		color: white;
+		cursor: pointer;
+	}
+
+	.burger {
+		right: 6rem;
+		top: 2rem;
+	}
+
+	@media(max-width: 768px) {
+		.burger {
+			right: 1rem;
+		}
+	}
 </style>
 <div id="app">
-	<Drawer />
+	<button class="burger" on:click="loadDrawer()">
+		<Icon name="bars" scale={2} />
+	</button>
+	{#if $isDrawerOpen}
+	<svelte:component this={Drawer} />
+	{/if}
 	<Toastr />
 </div>
 
 <script>
+	import Icon from 'svelte-awesome';
 	import SvelteRouter from 'svelte-router';
 	import routes from './routes';
-	import Drawer from './components/Drawer';
 	import Toastr from './components/Toastr';
 	import { globalStore } from './stores/globalStore';
 	import './common-styles.css';
@@ -27,7 +52,14 @@
 		oncreate() {
 			router.create('#app');
 		},
+		methods: {
+			async loadDrawer() {
+				const { default: Drawer } = await import('./components/Drawer');
+				this.set({ Drawer });
+				this.store.toggleDrawer();
+			}
+		},
 		store: () => globalStore,
-		components: { Drawer, Toastr },
+		components: { Icon, Toastr },
 	}
 </script>

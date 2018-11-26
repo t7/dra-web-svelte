@@ -17,11 +17,6 @@
     cursor: pointer;
   }
 
-  .burger {
-    right: 6rem;
-    top: 2rem;
-  }
-
   .close {
     left: 2rem;
     top: 2rem;
@@ -72,10 +67,6 @@
   }
 
   @media(max-width: 768px) {
-    .burger {
-      right: 1rem;
-    }
-
     aside {
       width: 100vw;
     }
@@ -87,10 +78,6 @@
     }
   }
 </style>
-
-<button class="burger" on:click="$toggleDrawer()">
-  <Icon name="bars" scale={2} />
-</button>
 
 {#if $isDrawerOpen}
 <aside transition:fly='{x:50}'>
@@ -110,7 +97,6 @@
 {/if}
 
 <script>
-  import Icon from 'svelte-awesome';
   import SvelteRouter from 'svelte-router';
   import { fly } from 'svelte-transitions';
   import RecentSearches from './RecentSearches';
@@ -118,7 +104,6 @@
   export default {
     transitions: { fly },
     components: {
-      Icon,
       RecentSearches,
       ZipSearchForm,
     },
