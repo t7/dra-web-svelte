@@ -14,7 +14,7 @@ module.exports = {
 	},
 	output: {
 		path: __dirname + '/public',
-		filename: '[name].js',
+		filename: '[name].[contenthash].js',
 		chunkFilename: '[name].[id].js'
 	},
 	module: {
