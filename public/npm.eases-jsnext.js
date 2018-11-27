@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[4],{jVoe:function(n,t,o){"use strict";function u(n){return n<.5?4*n*n*n:.5*Math.pow(2*n-2,3)+1}function r(n){var t=n-1;return t*t*t+1}o.d(t,"a",function(){return u}),o.d(t,"b",function(){return r})}}]);
