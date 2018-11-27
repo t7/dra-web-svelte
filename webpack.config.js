@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-var BrotliPlugin = require('brotli-webpack-plugin');
+var BrotliGzipPlugin = require('brotli-gzip-webpack-plugin');
 
 const mode = process.env.NODE_ENV || 'development';
 const prod = mode === 'production';
@@ -14,8 +14,30 @@ module.exports = {
 	},
 	output: {
 		path: __dirname + '/public',
-		filename: '[name].[hash].js',
-		chunkFilename: '[name].[id].js'
+		filename: '[name].js',
+		chunkFilename: '[name].js'
+	},
+	// split each node module into it's own bundle
+	optimization: {
+		runtimeChunk: 'single',
+		splitChunks: {
+			chunks: 'all',
+			maxInitialRequests: Infinity,
+			minSize: 0,
+			cacheGroups: {
+				vendor: {
+					test: /[\\/]node_modules[\\/]/,
+					name(module) {
+						// get the name. E.g. node_modules/packageName/not/this/part.js
+						// or node_modules/packageName
+						const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+
+						// npm package names are URL-safe, but some servers don't like @ symbols
+						return `npm.${packageName.replace('@', '')}`;
+					},
+				},
+			},
+		},
 	},
 	module: {
 		rules: [
@@ -47,11 +69,21 @@ module.exports = {
 	},
 	mode,
 	plugins: [
+		new webpack.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly
 		new MiniCssExtractPlugin({
 			filename: '[name].css'
 		}),
-		new BrotliPlugin({
+		new BrotliGzipPlugin({
 			asset: '[path].br[query]',
+			algorithm: 'brotli',
+			test: /\.(js|css|html|svg)$/,
+			threshold: 10240,
+			minRatio: 0.8,
+			quality: 11
+		}),
+		new BrotliGzipPlugin({
+			asset: '[path].gz[query]',
+			algorithm: 'gzip',
 			test: /\.(js|css|html|svg)$/,
 			threshold: 10240,
 			minRatio: 0.8
