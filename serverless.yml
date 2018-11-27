@@ -25,5 +25,3 @@ package:
   exclude:
     - coverage/**
     - .circleci/**
-    - public/*.br
-    - public/*.gz
