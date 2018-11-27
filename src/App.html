@@ -31,7 +31,7 @@
 </style>
 <div id="app">
 	<button class="burger" aria-label="menu" on:click="loadDrawer()">
-		<Icon name="bars" scale={2} />
+		&#9776;
 	</button>
 	{#if $isDrawerOpen}
 	<svelte:component this={Drawer} />
@@ -40,7 +40,6 @@
 </div>
 
 <script>
-	import Icon from 'svelte-awesome';
 	import SvelteRouter from 'svelte-router';
 	import routes from './routes';
 	import Toastr from './components/Toastr';
@@ -60,6 +59,6 @@
 			}
 		},
 		store: () => globalStore,
-		components: { Icon, Toastr },
+		components: { Toastr },
 	}
 </script>

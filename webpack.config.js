@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 var BrotliGzipPlugin = require('brotli-gzip-webpack-plugin');
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const mode = process.env.NODE_ENV || 'development';
 const prod = mode === 'production';
@@ -16,28 +17,6 @@ module.exports = {
 		path: __dirname + '/public',
 		filename: '[name].js',
 		chunkFilename: '[name].js'
-	},
-	// split each node module into it's own bundle
-	optimization: {
-		runtimeChunk: 'single',
-		splitChunks: {
-			chunks: 'all',
-			maxInitialRequests: Infinity,
-			minSize: 0,
-			cacheGroups: {
-				vendor: {
-					test: /[\\/]node_modules[\\/]/,
-					name(module) {
-						// get the name. E.g. node_modules/packageName/not/this/part.js
-						// or node_modules/packageName
-						const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
-
-						// npm package names are URL-safe, but some servers don't like @ symbols
-						return `npm.${packageName.replace('@', '')}`;
-					},
-				},
-			},
-		},
 	},
 	module: {
 		rules: [
@@ -67,6 +46,11 @@ module.exports = {
 			}
 		]
 	},
+	optimization: {
+		splitChunks: {
+			chunks: 'all',
+		},
+	},
 	mode,
 	plugins: [
 		new webpack.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly
@@ -87,7 +71,8 @@ module.exports = {
 			test: /\.(js|css|html|svg)$/,
 			threshold: 10240,
 			minRatio: 0.8
-		})
+		}),
+		new BundleAnalyzerPlugin()
 	],
 	devtool: prod ? false : 'source-map'
 };
