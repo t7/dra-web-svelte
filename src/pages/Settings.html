@@ -6,15 +6,15 @@
 </style>
 
 <main>
-  <ChangeTempUnitsForm />
+  <svelte:component this={ChangeTempUnitsForm} />
 </main>
 
 <script>
-  import ChangeTempUnitsForm from '../composed/ChangeTempUnitsForm';
   import { globalStore } from '../stores/globalStore';
   export default {
-    components: {
-      ChangeTempUnitsForm
+    async oncreate() {
+      const { default: ChangeTempUnitsForm } = await import('../composed/ChangeTempUnitsForm');
+      this.set({ ChangeTempUnitsForm });
     },
     store: () => globalStore,
   }
