@@ -16,8 +16,9 @@
     "webpack-serve": "^1.0.2"
   },
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack",
-    "build:dev": "cross-env NODE_ENV=development webpack",
+    "build": "cross-env NODE_ENV=production webpack -p --config ./webpack.production.config.js && npm run keep-zipped",
+    "build:dev": "cross-env NODE_ENV=development webpack --config ./webpack.config.js",
+    "keep-zipped": "find . -name '/dist/*.gz' -delete",
     "dev": "webpack-serve --content public --hot",
     "deploy": "serverless client deploy --no-confirm",
     "analyze": "webpack --profile --json > stats.json",
