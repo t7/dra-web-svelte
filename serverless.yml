@@ -17,7 +17,7 @@ plugins:
 custom:
   client:
     bucketName: dra-svelte
-    distributionFolder: public
+    distributionFolder: dist
     indexDocument: index.html
     errorDocument: error.html
 

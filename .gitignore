@@ -1,7 +1,6 @@
 .DS_Store
 node_modules
-public/1.*
-public/*.br
-public/*.gz
+public
 package-lock.json
 yarn.lock
+dist
