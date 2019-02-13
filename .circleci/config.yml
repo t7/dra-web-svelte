@@ -46,5 +46,6 @@ jobs:
               sudo python get-pip.py
               sudo pip install awscli --upgrade
               aws --version
-              aws s3 sync $DRA_BUILD_DIR s3://$DRA_BUCKET_NAME --delete --acl public-read --debug
+              set -o pipefail && aws s3 sync $DRA_BUILD_DIR s3://$DRA_BUCKET_NAME --delete --acl public-read --debug | tee ~/cmd_full_output
+              cp ~/cmd_full_output $CIRCLE_ARTIFACTS
             fi
