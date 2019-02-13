@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 var BrotliGzipPlugin = require('brotli-gzip-webpack-plugin');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
@@ -22,7 +23,7 @@ module.exports = {
 		rules: [
 			{
 				test: /\.html$/,
-				exclude: /node_modules/,
+				exclude: [/node_modules/, /public/],
 				use: {
 					loader: 'svelte-loader',
 					options: {
@@ -59,7 +60,10 @@ module.exports = {
 			minRatio: 0.8,
 			quality: 11
 		}),
-		new BundleAnalyzerPlugin()
+		new BundleAnalyzerPlugin(),
+		new HtmlWebpackPlugin({
+			template: 'public/index.html',
+		}),
 	],
 	devtool: prod ? false : 'source-map'
 };
